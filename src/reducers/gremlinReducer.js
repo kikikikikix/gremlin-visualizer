@@ -3,6 +3,8 @@ import { ACTIONS } from '../constants';
 const initialState = {
   host: 'localhost',
   port: '8182',
+  user: '',
+  password: '',
   query: '',
   error: null
 };
@@ -14,6 +16,12 @@ export const reducer =  (state=initialState, action)=>{
     }
     case ACTIONS.SET_PORT: {
       return { ...state, port: action.payload }
+    }
+    case ACTIONS.SET_USER: {
+      return { ...state, user: action.payload }
+    }
+    case ACTIONS.SET_PASSWORD: {
+      return { ...state, password: action.payload }
     }
     case ACTIONS.SET_QUERY: {
       return { ...state, query: action.payload, error: null }
