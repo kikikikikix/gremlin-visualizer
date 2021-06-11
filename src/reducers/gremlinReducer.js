@@ -5,6 +5,7 @@ const initialState = {
   port: '8182',
   user: '',
   password: '',
+  traversal: '',
   query: '',
   error: null
 };
@@ -22,6 +23,9 @@ export const reducer =  (state=initialState, action)=>{
     }
     case ACTIONS.SET_PASSWORD: {
       return { ...state, password: action.payload }
+    }
+    case ACTIONS.SET_TRAVERSAL: {
+      return { ...state, traversal: action.payload, error: null }
     }
     case ACTIONS.SET_QUERY: {
       return { ...state, query: action.payload, error: null }

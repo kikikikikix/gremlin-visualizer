@@ -17,6 +17,7 @@ class Header extends React.Component {
       QUERY_ENDPOINT,
       { host: this.props.host, port: this.props.port,
         user: this.props.user, password: this.props.password,
+        traversal: this.props.traversal,
         query: this.props.query, nodeLimit: this.props.nodeLimit },
       { headers: { 'Content-Type': 'application/json' } }
     ).then((response) => {
@@ -42,6 +43,10 @@ class Header extends React.Component {
     this.props.dispatch({ type: ACTIONS.SET_PASSWORD, payload: password });
   }
 
+  onTraversalChanged(traversal) {
+    this.props.dispatch({ type: ACTIONS.SET_TRAVERSAL, payload: traversal });
+  }
+
   onQueryChanged(query) {
     this.props.dispatch({ type: ACTIONS.SET_QUERY, payload: query });
   }
@@ -56,6 +61,8 @@ class Header extends React.Component {
           <TextField value={this.props.password} onChange={(event => this.onPasswordChanged(event.target.value))} id="standard-basic" label="password" type="password" style={{width: '10%'}} />
           <Button variant="contained" color="primary" onClick={this.sendQuery.bind(this)} style={{width: '150px'}} >Execute</Button>
           <Button variant="outlined" color="secondary" onClick={this.clearGraph.bind(this)} style={{width: '150px'}} >Clear Graph</Button>
+          <br />
+          <TextField value={this.props.traversal} onChange={(event => this.onTraversalChanged(event.target.value))} id="standard-basic" label="gremlin traversal" style={{width: '30%'}} />
           <br />
           <TextField value={this.props.query} onChange={(event => this.onQueryChanged(event.target.value))} id="standard-multiline-static" label="gremlin query" multiline rows={4} style={{width: '60%'}} />
         </form>
@@ -74,6 +81,7 @@ export const HeaderComponent = connect((state)=>{
     port: state.gremlin.port,
     user: state.gremlin.user,
     password: state.gremlin.password,
+    traversal: state.gremlin.traversal,
     query: state.gremlin.query,
     error: state.gremlin.error,
     nodes: state.graph.nodes,

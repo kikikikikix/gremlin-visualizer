@@ -54,8 +54,8 @@ app.post('/query', (req, res, next) => {
   const gremlinHost = req.body.host;
   const gremlinPort = req.body.port;
   const nodeLimit = req.body.nodeLimit;
+  const traversal = req.body.traversal === ''? 'g': req.body.traversal;
   const query = req.body.query;
-
   const saslUser = req.body.user;
   const saslPassword = req.body.password;
 
@@ -64,13 +64,13 @@ app.post('/query', (req, res, next) => {
     const my_authenticator =  new gremlin.driver.auth.PlainTextSaslAuthenticator(saslUser, saslPassword);
     client = new gremlin.driver.Client(`ws://${gremlinHost}:${gremlinPort}/gremlin`,
      {
-      traversalSource: 'g',
+      traversalSource: traversal,
       mimeType: 'application/json',
       authenticator: my_authenticator,
       rejectUnauthorized: false
     });
   }else{
-    client = new gremlin.driver.Client(`ws://${gremlinHost}:${gremlinPort}/gremlin`, { traversalSource: 'g', mimeType: 'application/json' });
+    client = new gremlin.driver.Client(`ws://${gremlinHost}:${gremlinPort}/gremlin`, { traversalSource: traversal, mimeType: 'application/json' });
   }
 
   client.submit(makeQuery(query, nodeLimit), {})
